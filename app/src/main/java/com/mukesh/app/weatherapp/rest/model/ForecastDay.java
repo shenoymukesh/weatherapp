@@ -48,4 +48,8 @@ public class ForecastDay {
     @Getter
     @SerializedName("date")
     private Date mDate;
+
+    @Getter
+    @SerializedName("conditions")
+    private String mConditions;
 }
