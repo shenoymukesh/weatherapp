@@ -15,10 +15,34 @@
                     android:fitsSystemWindows="true"
                     tools:context=".ui.WeatherHomeActivity">
 
+        <LinearLayout
+            android:id="@+id/wu_credit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:src="@drawable/wundergroundlogo_4c_horz"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/wu_credit_line"
+                android:textColor="@color/black"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/forecast_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@id/wu_credit_layout"
             android:layout_marginEnd="6dp"
             android:layout_marginStart="6dp"
             android:clipToPadding="false"

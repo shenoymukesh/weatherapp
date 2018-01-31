@@ -5,8 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mukesh.app.weatherapp.R;
 
-import java.util.List;
-
+/**
+ * This is a simple container activity. Currently just WeatherHomeFragment is added in the layout. Can be enhanced to add navigation drawer etc and add/switch fragments on the go.
+ */
 public class WeatherHomeActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +19,8 @@ public class WeatherHomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         WeatherHomeFragment currentFragment =
-                (WeatherHomeFragment) getSupportFragmentManager().findFragmentById(R.id.home_fragment);;
+                (WeatherHomeFragment) getSupportFragmentManager().findFragmentById(R.id.home_fragment);
+        ;
 
         if (currentFragment == null || !currentFragment.onActivityBackPress()) {
             super.onBackPressed();

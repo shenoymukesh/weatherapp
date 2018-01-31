@@ -14,10 +14,11 @@ import java.util.List;
 
 /**
  * Created by Mukesh Shenoy on 1/28/2018.
+ *
+ * This adapter binds forecast data list to recycler view which is displayed in WeatherHomeFragment.
  */
 
 class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
-
 
     private List<WeatherForecastDay> mForecastSummaries;
 
