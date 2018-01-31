@@ -1,5 +1,6 @@
 package com.mukesh.app.weatherapp.rest;
 
+import com.mukesh.app.weatherapp.BuildConfig;
 import com.mukesh.app.weatherapp.rest.model.FeaturesResponse;
 import com.mukesh.app.weatherapp.rest.model.SearchResponse;
 import com.mukesh.app.weatherapp.rest.service.ServiceCreator;
@@ -11,6 +12,9 @@ import retrofit2.Call;
  * Created by Mukesh Shenoy on 1/27/2018.
  */
 
+/**
+ Singleton manager class used across app to make network requests. This class creates REST api interface which has methods for each REST api.
+ */
 public class NetworkManager {
 
     private static final NetworkManager sInstance = new NetworkManager();
@@ -29,6 +33,6 @@ public class NetworkManager {
     }
 
     public Call<FeaturesResponse> getWeatherForecast(String feature, String zwm) {
-        return mWeatherApiClient.getForecast(Constants.WU_API_KEY, feature, zwm);
+        return mWeatherApiClient.getForecast(BuildConfig.WU_API_KEY, feature, zwm);
     }
 }

@@ -1,4 +1,4 @@
-package com.mukesh.app.weatherapp.ui;
+package com.mukesh.app.weatherapp.ui.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -31,6 +31,7 @@ import com.mukesh.app.weatherapp.rest.model.Region;
 import com.mukesh.app.weatherapp.rest.model.SearchResponse;
 import com.mukesh.app.weatherapp.rest.model.SimpleForecast;
 import com.mukesh.app.weatherapp.rest.model.TextForecast;
+import com.mukesh.app.weatherapp.ui.adapter.ForecastListAdapter;
 import com.mukesh.app.weatherapp.ui.model.RegionSearchSuggestion;
 import com.mukesh.app.weatherapp.ui.model.WeatherForecastDay;
 import com.mukesh.app.weatherapp.util.Utility;
@@ -291,13 +292,13 @@ public class WeatherHomeFragment extends Fragment {
                 textForecastPeriods = textForecast.getForecastPeriods();
             }
             if (simpleforecast != null) {
-                List<ForecastDay> simpleforecastDays = simpleforecast.getForecastDays();
-                if (simpleforecastDays != null) {
-                    for (int i = 0; i < simpleforecastDays.size(); i++) {
+                List<ForecastDay> simpleForecastDays = simpleforecast.getForecastDays();
+                if (simpleForecastDays != null) {
+                    for (int i = 0; i < simpleForecastDays.size(); i++) {
                         ForecastPeriod dayForecast = textForecastPeriods.get(2 * i);
                         ForecastPeriod nightForecast = textForecastPeriods.get((2 * i) + 1);
                         WeatherForecastDay summaryForecast
-                                = new WeatherForecastDay(simpleforecastDays.get(i).getDate(), dayForecast, nightForecast);
+                                = new WeatherForecastDay(simpleForecastDays.get(i).getDate(), dayForecast, nightForecast);
                         summaryForecasts.add(summaryForecast);
                     }
                 }

@@ -12,6 +12,9 @@ import lombok.experimental.Accessors;
  * Created by Mukesh Shenoy on 1/28/2018.
  */
 
+/**
+ * This is a model class for populating search suggestions.
+ */
 @Accessors(prefix = "m")
 public class RegionSearchSuggestion implements SearchSuggestion {
 

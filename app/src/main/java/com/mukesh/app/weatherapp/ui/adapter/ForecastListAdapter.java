@@ -1,4 +1,4 @@
-package com.mukesh.app.weatherapp.ui;
+package com.mukesh.app.weatherapp.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mukesh.app.weatherapp.R;
+import com.mukesh.app.weatherapp.ui.GlideApp;
 import com.mukesh.app.weatherapp.ui.model.WeatherForecastDay;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * This adapter binds forecast data list to recycler view which is displayed in WeatherHomeFragment.
  */
 
-class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
+public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
 
     private List<WeatherForecastDay> mForecastSummaries;
 

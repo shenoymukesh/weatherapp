@@ -10,6 +10,9 @@ import lombok.experimental.Accessors;
  * Created by Mukesh Shenoy on 1/28/2018.
  */
 
+/**
+ * This is a model class to combine results from txt_forecast and simpleforecast in the api response
+ */
 @Accessors(prefix = "m")
 public class WeatherForecastDay {
 

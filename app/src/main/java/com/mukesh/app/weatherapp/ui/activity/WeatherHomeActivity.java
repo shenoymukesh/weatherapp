@@ -1,9 +1,10 @@
-package com.mukesh.app.weatherapp.ui;
+package com.mukesh.app.weatherapp.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mukesh.app.weatherapp.R;
+import com.mukesh.app.weatherapp.ui.fragment.WeatherHomeFragment;
 
 /**
  * This is a simple container activity. Currently just WeatherHomeFragment is added in the layout. Can be enhanced to add navigation drawer etc and add/switch fragments on the go.

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mukesh.app.weatherapp.ui.WeatherHomeActivity">
+    tools:context="com.mukesh.app.weatherapp.ui.activity.WeatherHomeActivity">
 
     <include layout="@layout/content_weather_home"/>
 

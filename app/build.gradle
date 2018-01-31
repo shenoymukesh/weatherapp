@@ -20,6 +20,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions("releaseType")
+    productFlavors {
+        dev {
+            buildConfigField("String", "WU_API_KEY", "\"24f0b7e4ed53f605\"")
+        }
+
+        prod {
+            //TODO: Replace the key with production key
+            buildConfigField("String", "WU_API_KEY", "\"24f0b7e4ed53f605\"")
+        }
+    }
 }
 
 dependencies {
