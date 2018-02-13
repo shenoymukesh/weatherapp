@@ -5,6 +5,7 @@ import android.os.Parcel;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 
@@ -23,6 +24,10 @@ public class RegionSearchSuggestion implements SearchSuggestion {
 
     @Getter
     private final String mZwm;
+
+    @Getter
+    @Setter
+    private boolean mIsHistory;
 
     public RegionSearchSuggestion(String regionName, String zwm) {
         mRegionName = regionName;
@@ -61,4 +66,22 @@ public class RegionSearchSuggestion implements SearchSuggestion {
             return new RegionSearchSuggestion[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RegionSearchSuggestion that = (RegionSearchSuggestion) o;
+
+        if (!mRegionName.equals(that.mRegionName)) return false;
+        return mZwm.equals(that.mZwm);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mRegionName.hashCode();
+        result = 31 * result + mZwm.hashCode();
+        return result;
+    }
 }

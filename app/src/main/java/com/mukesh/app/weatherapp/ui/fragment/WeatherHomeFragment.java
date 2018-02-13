@@ -35,6 +35,7 @@ import com.mukesh.app.weatherapp.ui.adapter.ForecastListAdapter;
 import com.mukesh.app.weatherapp.ui.model.RegionSearchSuggestion;
 import com.mukesh.app.weatherapp.ui.model.WeatherForecastDay;
 import com.mukesh.app.weatherapp.util.Utility;
+import com.mukesh.app.weatherapp.util.WeatherDataStorageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class WeatherHomeFragment extends Fragment {
     private static final String FEATURE = "forecast10day";
     private static final int SUGGESTION_LIMIT = 10;
     private static final String REGION_TYPE_CITY = "city";
+    private static final int MAX_HISTORY_SIZE = 5;
 
     private RecyclerView mForecastList;
     private ForecastListAdapter mForecastListAdapter;
@@ -62,6 +64,9 @@ public class WeatherHomeFragment extends Fragment {
     private AlertDialog mNoInternetAlert;
     private Call<SearchResponse> mSearchResponseCall;
     private Call<FeaturesResponse> mForecastCall;
+    private List<RegionSearchSuggestion> mSearchHistory;
+    private WeatherDataStorageHelper mWeatherDataStorage;
+
 
     public WeatherHomeFragment() {
     }
@@ -75,6 +80,9 @@ public class WeatherHomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mWeatherDataStorage = new WeatherDataStorageHelper(getContext());
+        mSearchHistory = mWeatherDataStorage.getSearchHistoryData();
 
         mSearchView = view.findViewById(R.id.floating_search_view);
         mForecastList = view.findViewById(R.id.forecast_list);
@@ -137,6 +145,7 @@ public class WeatherHomeFragment extends Fragment {
                 getForecastForSelectedRegion(regionSuggestion);
                 mLastQuery = searchSuggestion.getBody();
                 mSearchView.setSearchBarTitle(mLastQuery != null ? mLastQuery : "");
+                addToHistory(regionSuggestion);
             }
 
             @Override
@@ -149,6 +158,9 @@ public class WeatherHomeFragment extends Fragment {
             @Override
             public void onFocus() {
                 Log.d(TAG, "onFocus()");
+                if (mSearchHistory != null && !mSearchHistory.isEmpty()) {
+                    mSearchView.swapSuggestions(new ArrayList<SearchSuggestion>(mSearchHistory));
+                }
             }
 
             @Override
@@ -168,11 +180,29 @@ public class WeatherHomeFragment extends Fragment {
         });
     }
 
+    private void addToHistory(RegionSearchSuggestion regionSuggestion) {
+        if (mSearchHistory == null) {
+            mSearchHistory = new ArrayList<>();
+        }
+        if (!mSearchHistory.contains(regionSuggestion)) {
+            regionSuggestion.setHistory(true);
+            if (mSearchHistory.size() >= MAX_HISTORY_SIZE) {
+                mSearchHistory.remove(0);
+            }
+            mSearchHistory.add(regionSuggestion);
+            mWeatherDataStorage.storeHistoryData(mSearchHistory);
+        }
+    }
+
     private void formatSearchSuggestionItem(ImageView leftIcon, TextView textView, RegionSearchSuggestion item) {
         RegionSearchSuggestion regionSuggestion = item;
 
+        int leftIconResource = R.drawable.ic_place_24dp;
+        if (item.isHistory()) {
+            leftIconResource = R.drawable.ic_history_black_24dp;
+        }
         leftIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
-                R.drawable.ic_place_24dp, null));
+                leftIconResource, null));
 
         textView.setTextColor(ContextCompat.getColor(getContext(), R.color.dark_gray));
         String textHighlight = "#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.black) & 0x00ffffff);
@@ -244,7 +274,8 @@ public class WeatherHomeFragment extends Fragment {
 
     private void handleSearchSuggestionSuccess(Response<SearchResponse> response) {
         if (response.isSuccessful()) {
-            List<? extends SearchSuggestion> suggestions = getSuggestionsFromSearchResults(response, SUGGESTION_LIMIT);
+            List<RegionSearchSuggestion> suggestions = getSuggestionsFromSearchResults(response, SUGGESTION_LIMIT);
+            suggestions = addHistoryData(suggestions);
             mSearchView.swapSuggestions(suggestions);
             mSearchView.hideProgress();
             if (suggestions.isEmpty()) {
@@ -255,6 +286,14 @@ public class WeatherHomeFragment extends Fragment {
             //TODO: Need to display error to user. Not much info available on WU API doc for non 200 OK error formats
             Toast.makeText(getContext(), R.string.no_results_found, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private List<RegionSearchSuggestion> addHistoryData(List<RegionSearchSuggestion> suggestions) {
+        ArrayList<RegionSearchSuggestion> suggestionsWithHistory = new ArrayList<>(mSearchHistory);
+        if (suggestions != null) {
+            suggestionsWithHistory.addAll(suggestions);
+        }
+        return suggestionsWithHistory;
     }
 
     private void handleSearchSuggestionFailure() {
